@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1世帯負担金試算</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        label, h3, p {
+            margin: 10px 0;
+        }
+    </style>
+    <script>
+        function calculate() {
+            var sizes = {
+                'ミニミニ': 34100 + 2750,
+                'ミニ': 35750 + 2750,
+                '小': 36850 + 2750,
+                '中': 52580 + 3300,
+                'マンション': 53680 + 3300,
+                '大': 54780 + 3300
+            };
+
+            var selectedSize = document.getElementById('size').value;
+            var households = parseInt(document.getElementById('households').value);
+            var subsidy = 1200;
+
+            if (sizes[selectedSize] && !isNaN(households) && households > 0) {
+                var totalCost = sizes[selectedSize];
+                var perHousehold = totalCost / households;
+                var finalAmount = perHousehold - subsidy;
+
+                document.getElementById('resultA').innerText = perHousehold.toFixed(2) + '円';
+                document.getElementById('resultB').innerText = finalAmount.toFixed(2) + '円';
+            } else {
+                document.getElementById('resultA').innerText = 'N/A';
+                document.getElementById('resultB').innerText = 'N/A';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>1世帯負担金試算</h2>
+    <form oninput="calculate()">
+        <label for="size">希望サイズ:</label>
+        <select id="size" name="size">
+            <option value="">選択してください</option>
+            <option value="ミニミニ">ミニミニ（34,100円 + 2,750円 送料）</option>
+            <option value="ミニ">ミニ（35,750円 + 2,750円 送料）</option>
+            <option value="小">小（36,850円 + 2,750円 送料）</option>
+            <option value="中">中（52,580円 + 3,300円 送料）</option>
+            <option value="マンション">マンション（53,680円 + 3,300円 送料）</option>
+            <option value="大">大（54,780円 + 3,300円 送料）</option>
+        </select><br><br>
+
+        <label for="households">参加世帯数:</label>
+        <input type="number" id="households" name="households"><br><br>
+
+        <h3>計算結果</h3>
+        <p>A: <span id="resultA">N/A</span> /世帯</p>
+        <p>1世帯負担金: <span id="resultB">N/A</span> 円</p>
+    </form>
+</body>
+</html>

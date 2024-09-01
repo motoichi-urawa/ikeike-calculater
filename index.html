@@ -17,23 +17,35 @@
     </style>
     <script>
         function calculate() {
+            // 送料の定義
+            var shippingCosts = {
+                'low': 2750,
+                'high': 3300
+            };
+
+            // サイズごとの基本価格と対応する送料の種類
             var sizes = {
-                'ミニミニ': 34100 + 2750,
-                'ミニ': 35750 + 2750,
-                '小': 36850 + 2750,
-                '中': 52580 + 3300,
-                'マンション': 53680 + 3300,
-                '大': 54780 + 3300
+                'ミニミニ': { price: 34100, shipping: 'low' },
+                'ミニ': { price: 35750, shipping: 'low' },
+                '小': { price: 36850, shipping: 'low' },
+                '中': { price: 52580, shipping: 'high' },
+                'マンション': { price: 53680, shipping: 'high' },
+                '大': { price: 54780, shipping: 'high' }
             };
 
             var selectedSize = document.getElementById('size').value;
             var households = parseInt(document.getElementById('households').value);
+            var nonMemberHouseholds = parseInt(document.getElementById('nonMemberHouseholds').value);
             var subsidy = 1200;
 
-            if (sizes[selectedSize] && !isNaN(households) && households > 0) {
-                var totalCost = sizes[selectedSize];
+            if (sizes[selectedSize] && !isNaN(households) && households > 0 && !isNaN(nonMemberHouseholds) && nonMemberHouseholds >= 0) {
+                var memberHouseholds = households - nonMemberHouseholds;
+                var totalCost = sizes[selectedSize].price + shippingCosts[sizes[selectedSize].shipping];
                 var perHousehold = totalCost / households;
-                var finalAmount = perHousehold - subsidy;
+
+                // 未加入世帯がある場合、補助金を他の加入世帯で負担
+                var adjustedSubsidy = subsidy * (households / memberHouseholds);
+                var finalAmount = perHousehold - adjustedSubsidy;
 
                 // 小数点以下を表示しないように Math.floor() を使用
                 document.getElementById('resultA').innerText = Math.floor(perHousehold) + '円';
@@ -47,7 +59,6 @@
 </head>
 <body>
     <h2 class="title is-3">1世帯負担金試算</h2>
-    <p>カラスいけいけネットの1世帯負担金計算機です。</p>
     <form oninput="calculate()">
         <label for="size">希望サイズ:</label>
         <div class="select is-rounded">
@@ -64,12 +75,17 @@
 
         <label for="households">参加世帯数:</label>
         <input type="number" id="households" name="households" class="input" placeholder="例）20">
-        <br><br>
-        <div class="box">
-        <h3 class="subtitle">計算結果</h3>
-        <p><span id="resultA">N/A</span> @世帯</p>
+
+        <label for="nonMemberHouseholds">自治会未加入世帯数:</label>
+        <input type="number" id="nonMemberHouseholds" name="nonMemberHouseholds" class="input" placeholder="例）2">
+        <hr />
+       
+        <h3 class="title is-4">計算結果</h3>
+        <p><span id="resultA">N/A</span> /世帯</p>
         <p>※自治会補助金（1,200円）差し引き後</p>
+        <div class="box">
         <p>入会1世帯負担金: <span id="resultB" class="subtitle is-3">N/A</span></p>
+        <p><small>※自治会に未加入の世帯がある場合、その分の補助金を他の加入世帯が負担します</small></p>
         </div>
     </form>
 </body>

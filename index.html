@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <title>1世帯負担金試算</title>
     <style>
         body {
@@ -44,9 +45,10 @@
     </script>
 </head>
 <body>
-    <h2>1世帯負担金試算</h2>
+    <h2 class="title is-3">1世帯負担金試算</h2>
     <form oninput="calculate()">
         <label for="size">希望サイズ:</label>
+        <div class="select is-rounded">
         <select id="size" name="size">
             <option value="">選択してください</option>
             <option value="ミニミニ">ミニミニ（34,100円 + 2,750円 送料）</option>
@@ -55,15 +57,21 @@
             <option value="中">中（52,580円 + 3,300円 送料）</option>
             <option value="マンション">マンション（53,680円 + 3,300円 送料）</option>
             <option value="大">大（54,780円 + 3,300円 送料）</option>
-        </select><br><br>
+        </select></div>
+        <br><br>
 
         <label for="households">参加世帯数:</label>
-        <input type="number" id="households" name="households"><br><br>
-
-        <h3>計算結果</h3>
+        <input type="number" id="households" name="households" class="input" placeholder="例）20">世帯<br><br>
+        <div class="card">
+            <div class="card-content">
+              <div class="content">
+        <h3 class="subtitle">計算結果</h3>
         <p><span id="resultA">N/A</span> /世帯</p>
         <p>※自治会補助金（1,200円）差し引き後</p>
-        <p>入会1世帯負担金: <span id="resultB">N/A</span> 円</p>
+        <p>入会1世帯負担金: <span id="resultB">N/A</span></p>
+    </div>
+</div>
+</div>
     </form>
 </body>
 </html>

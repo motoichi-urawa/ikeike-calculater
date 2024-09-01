@@ -7,7 +7,6 @@
     <title>1世帯負担金試算</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             padding: 1rem;
             background-color: #ffffff;
         }
@@ -35,9 +34,9 @@
                 var perHousehold = totalCost / households;
                 var finalAmount = perHousehold - subsidy;
 
-                // 小数点以下を表示しないように Math.floor() を使用
-                document.getElementById('resultA').innerText = Math.floor(perHousehold) + '円';
-                document.getElementById('resultB').innerText = Math.floor(finalAmount) + '円';
+                // 小数点以下を表示しないように Math.floor() を使用し、カンマを入れる
+                document.getElementById('resultA').innerText = Math.floor(perHousehold).toLocaleString() + '円';
+                document.getElementById('resultB').innerText = Math.floor(finalAmount).toLocaleString() + '円';
             } else {
                 document.getElementById('resultA').innerText = 'N/A';
                 document.getElementById('resultB').innerText = 'N/A';
@@ -67,10 +66,10 @@
         <br><br>
         <hr />
         <h3 class="title is-4">計算結果</h3>
-        <p><span id="resultA">N/A</span> @世帯</p>
+        <p><span id="resultA" class="subtitle is-5">N/A</span> @世帯</p>
         <div class="box">
         <p>※自治会補助金（1,200円）差し引き後</p>
-        <p>1世帯負担金: <span id="resultB" class="subtitle is-3">N/A</span></p>
+        <p>1世帯負担金: <strong id="resultB" class="subtitle is-3">N/A</strong></p>
 
         </div>
     </form>

@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 2rem;
+            padding: 1rem;
             background-color: #ffffff;
         }
         label, h3, p {
@@ -35,8 +35,9 @@
                 var perHousehold = totalCost / households;
                 var finalAmount = perHousehold - subsidy;
 
-                document.getElementById('resultA').innerText = perHousehold.toFixed(2) + '円';
-                document.getElementById('resultB').innerText = finalAmount.toFixed(2) + '円';
+                // 小数点以下を表示しないように Math.floor() を使用
+                document.getElementById('resultA').innerText = Math.floor(perHousehold) + '円';
+                document.getElementById('resultB').innerText = Math.floor(finalAmount) + '円';
             } else {
                 document.getElementById('resultA').innerText = 'N/A';
                 document.getElementById('resultB').innerText = 'N/A';
@@ -46,6 +47,7 @@
 </head>
 <body>
     <h2 class="title is-3">1世帯負担金試算</h2>
+    <p>カラスいけいけネットの1世帯負担金計算機です。</p>
     <form oninput="calculate()">
         <label for="size">希望サイズ:</label>
         <div class="select is-rounded">
@@ -61,17 +63,14 @@
         <br><br>
 
         <label for="households">参加世帯数:</label>
-        <input type="number" id="households" name="households" class="input" placeholder="例）20">世帯<br><br>
-        <div class="card">
-            <div class="card-content">
-              <div class="content">
+        <input type="number" id="households" name="households" class="input" placeholder="例）20">
+        <br><br>
+        <div class="box">
         <h3 class="subtitle">計算結果</h3>
-        <p><span id="resultA">N/A</span> /世帯</p>
+        <p><span id="resultA">N/A</span> @世帯</p>
         <p>※自治会補助金（1,200円）差し引き後</p>
-        <p>入会1世帯負担金: <span id="resultB">N/A</span></p>
-    </div>
-</div>
-</div>
+        <p>入会1世帯負担金: <span id="resultB" class="subtitle is-3">N/A</span></p>
+        </div>
     </form>
 </body>
 </html>
